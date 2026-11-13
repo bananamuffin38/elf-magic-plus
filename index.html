@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Elf Magic Plus Test</title>
+</head>
+<body>
+  <h1>Elf Magic Plus</h1>
+  <p>My website is working!</p>
+  <input id="search" placeholder="Type snow">
+  <p id="result">Waiting for search...</p>
+  <script>
+    document.getElementById("search").addEventListener("input", function () {
+      document.getElementById("result").textContent =
+        "You searched for: " + this.value;
+    });
+  </script>
+</body>
+</html>

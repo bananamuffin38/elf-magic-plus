@@ -1,19 +1,51 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Elf Magic Plus Test</title>
-</head>
-<body>
-  <h1>Elf Magic Plus</h1>
-  <p>My website is working!</p>
-  <input id="search" placeholder="Type snow">
-  <p id="result">Waiting for search...</p>
-  <script>
-    document.getElementById("search").addEventListener("input", function () {
-      document.getElementById("result").textContent =
-        "You searched for: " + this.value;
-    });
-  </script>
-</body>
-</html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Elf Magic Plus | Magic & Memories Club</title><style>
+:root{--green:#496B57;--cream:#FFF9ED;--sage:#A8BFA5;--rose:#DDA6A1}*{box-sizing:border-box}body{margin:0;background:var(--cream);font-family:system-ui,-apple-system,sans-serif;color:#243a2e}header{background:var(--green);color:white;text-align:center;padding:34px 16px}h1{margin:0;font-size:2rem}header p{margin:10px 0 0}main{max-width:900px;margin:auto;padding:22px 16px}.controls{background:white;padding:18px;border-radius:16px;box-shadow:0 2px 12px #0001;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}label{font-weight:650;font-size:.9rem}label span{display:block;margin-bottom:5px}input,select{width:100%;padding:12px;border:1px solid #b6c5b8;border-radius:9px;background:white;font:inherit}.wide{grid-column:1/-1}.topline{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin:20px 0 12px}button{cursor:pointer;border:0;border-radius:10px;padding:10px 14px;font:inherit;font-weight:650;background:var(--green);color:white}.secondary{background:#e4ebe3;color:#294936}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}.card{background:white;border:1px solid #e2e8e0;border-radius:14px;padding:17px;box-shadow:0 2px 8px #0000000a}.card h2{font-size:1.1rem;margin:0 0 8px}.card p{line-height:1.5}.meta{font-size:.8rem;color:#516b5b;margin-bottom:12px}.fav{background:#f5e5e3;color:#6d3d40}.fav.active{background:#a54f58;color:white}.empty{text-align:center;padding:40px}footer{text-align:center;padding:25px;color:#516b5b}@media(max-width:440px){.controls{grid-template-columns:1fr}}
+</style></head><body><header><h1>🎄 Elf Magic Plus ✨</h1><p>Little Moments. Magical Memories.</p><p>Find a little elf magic for tonight!</p></header><main><section class="controls"><label class="wide"><span>Search elf ideas</span><input id="search" placeholder="Try snow, candy, funny, easy..."></label><label><span>Category</span><select id="category"><option value="">All categories</option><option>Funny</option><option>Kindness</option><option>Creative</option><option>Adventure</option><option>Cozy</option></select></label><label><span>Time needed</span><select id="time"><option value="">Any time</option><option>5 minutes</option><option>10 minutes</option><option>15 minutes</option></select></label><label><span>Mess level</span><select id="mess"><option value="">Any mess level</option><option>No mess</option><option>Low mess</option><option>Some mess</option></select></label><label><span>Show</span><select id="show"><option value="all">All ideas</option><option value="saved">My favourites</option></select></label></section><div class="topline"><strong id="count"></strong><button class="secondary" id="surprise">🎁 Surprise me</button></div><div id="cards" class="cards"></div></main><footer>Magic & Memories Club · Made for family fun ❤️<p>Your favourites are saved on this device and browser.</p></footer><script>
+const ideas=[
+['Marshmallow Snow Angels','Lay your elf in a tray of mini marshmallows and spread them like snow.','Funny','5 minutes','Low mess'],
+['Candy Cane Hide-and-Seek','Hide a few wrapped candy canes and leave a clue from your elf.','Adventure','10 minutes','No mess'],
+['Elf Movie Night','Sit your elf beside a bowl of popcorn with a family movie suggestion.','Cozy','5 minutes','Low mess'],
+['Tiny Thank-You Note','Have your elf leave a note thanking someone for being kind.','Kindness','5 minutes','No mess'],
+['Paper Snowflake Workshop','Set out folded paper snowflakes beside your elf.','Creative','10 minutes','Low mess'],
+['Sock Sleeping Bag','Tuck your elf into a clean sock like a tiny sleeping bag.','Cozy','5 minutes','No mess'],
+['Toilet Paper Snowman','Stack three toilet paper rolls and draw a snowman face on a note nearby.','Funny','5 minutes','No mess'],
+['Elf Book Club','Place your elf in front of a favourite holiday storybook.','Cozy','5 minutes','No mess'],
+['Kindness Mission','Leave a note asking everyone to give three compliments today.','Kindness','5 minutes','No mess'],
+['Ribbon Zipline','Make a low, secure ribbon line between two chairs and hang the elf from it.','Adventure','10 minutes','No mess'],
+['Cotton Ball Snowstorm','Surround your elf with a handful of cotton balls as pretend snow.','Funny','5 minutes','Low mess'],
+['Holiday Drawing Challenge','Put crayons and paper beside your elf with a drawing prompt.','Creative','5 minutes','No mess'],
+['Puzzle Helper','Place your elf beside a partly finished family puzzle.','Cozy','5 minutes','No mess'],
+['Toy Parade','Line up a few toys behind your elf for a tiny parade.','Funny','10 minutes','No mess'],
+['Secret Star Hunt','Hide paper stars around the room and let the elf offer clues.','Adventure','15 minutes','No mess'],
+['Breakfast Cheerleader','Set your elf by the breakfast table with a cheerful message.','Kindness','5 minutes','No mess'],
+['Mini Paper Crown','Cut a tiny paper crown and let your elf be royalty for the day.','Creative','10 minutes','Low mess'],
+['Blanket Fort Guest','Seat your elf inside a small blanket fort made with cushions.','Cozy','10 minutes','No mess'],
+['Stuffed Animal Meeting','Gather stuffed animals around your elf for a pretend meeting.','Funny','5 minutes','No mess'],
+['Holiday Colour Hunt','Leave a list of red, green, gold and white objects to find.','Adventure','5 minutes','No mess']
+];
+const prefixes=['North Pole','Jingle','Twinkle','Merry','Snowy'];
+const extras=[
+['Scavenger Clue','Leave a simple clue that leads to a favourite toy.','Adventure','5 minutes','No mess'],
+['Paper Heart','Leave a paper heart with a kind message for someone at home.','Kindness','5 minutes','No mess'],
+['Tiny Art Show','Display a small doodle made by your elf.','Creative','10 minutes','Low mess'],
+['Silly Hat','Give your elf a hat made from folded paper.','Funny','5 minutes','No mess'],
+['Story Corner','Pose your elf reading a small book to the toys.','Cozy','5 minutes','No mess'],
+['Snowball Toss','Place cotton-ball snowballs beside two toy teams.','Funny','10 minutes','Low mess'],
+['Secret Compliment','Ask everyone to write one nice thing about another person.','Kindness','10 minutes','No mess'],
+['Paper Chain','Start a tiny paper chain and invite the family to add a link.','Creative','15 minutes','Some mess'],
+['Treasure Map','Draw a simple map to a hidden holiday sticker.','Adventure','15 minutes','No mess'],
+['Cozy Cocoa Note','Leave a note suggesting warm cocoa together.','Cozy','5 minutes','No mess'],
+['Toy Dance Party','Arrange toys in dancing poses around your elf.','Funny','10 minutes','No mess'],
+['Helping Hands','Leave a note challenging everyone to help with one chore.','Kindness','5 minutes','No mess'],
+['Mini Bookmark','Make a paper bookmark and put it beside your elf.','Creative','10 minutes','Low mess'],
+['Window Watch','Sit your elf by a window looking for winter weather.','Cozy','5 minutes','No mess'],
+['Hidden Star','Hide a paper star and leave a short clue.','Adventure','5 minutes','No mess'],
+['Silly Shoe Switch','Put two clean shoes in funny places with your elf nearby.','Funny','5 minutes','No mess']
+];
+extras.forEach((idea,i)=>{for(let p=0;p<5;p++){ideas.push([prefixes[p]+' '+idea[0],idea[1],idea[2],idea[3],idea[4]])}});
+// 20 original ideas + 80 themed variations = 100 searchable ideas.
+const $=id=>document.getElementById(id);let saved=[];try{saved=JSON.parse(localStorage.getItem('elf-magic-favourites')||'[]')}catch(e){};
+function render(){let q=$('search').value.toLowerCase().trim(),cat=$('category').value,time=$('time').value,mess=$('mess').value,show=$('show').value;let filtered=ideas.map((idea,i)=>({idea,i})).filter(({idea,i})=>(!q||(idea[0]+' '+idea[1]+' '+idea[2]).toLowerCase().includes(q))&&(!cat||idea[2]===cat)&&(!time||idea[3]===time)&&(!mess||idea[4]===mess)&&(show!=='saved'||saved.includes(i)));$('count').textContent=filtered.length+' of '+ideas.length+' elf ideas';$('cards').replaceChildren();if(!filtered.length){let e=document.createElement('p');e.className='empty';e.textContent='No ideas match yet. Try clearing a filter!';$('cards').append(e)}filtered.forEach(({idea,i})=>{let card=document.createElement('article');card.className='card';let title=document.createElement('h2');title.textContent=idea[0];let meta=document.createElement('div');meta.className='meta';meta.textContent=idea[2]+' · '+idea[3]+' · '+idea[4];let desc=document.createElement('p');desc.textContent=idea[1];let btn=document.createElement('button');btn.className='fav'+(saved.includes(i)?' active':'');btn.textContent=saved.includes(i)?'♥ Saved':'♡ Save idea';btn.onclick=()=>{saved=saved.includes(i)?saved.filter(x=>x!==i):[...saved,i];try{localStorage.setItem('elf-magic-favourites',JSON.stringify(saved))}catch(e){}render()};card.append(title,meta,desc,btn);$('cards').append(card)})}
+['search','category','time','mess','show'].forEach(id=>$(id).addEventListener('input',render));$('surprise').onclick=()=>{const i=Math.floor(Math.random()*ideas.length);$('search').value=ideas[i][0];$('category').value='';$('time').value='';$('mess').value='';$('show').value='all';render();$('cards').scrollIntoView({behavior:'smooth'})};render();
+</script></body></html>
